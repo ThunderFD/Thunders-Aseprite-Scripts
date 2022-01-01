@@ -55,6 +55,14 @@ function average_4x4(img, threshold, x, y)
 	end
 end
 
+function average_image_4x4(img, threshold)
+	for x = 0, img.width, 4 do
+		for y = 0, img.height, 4 do
+			average_4x4(img, threshold, x, y)
+		end
+	end
+end
+
 function delete_transparent_bits(img, threshold)
 	for x = 0, img.width, 1 do
 		for y = 0, img.height, 1 do
@@ -70,14 +78,29 @@ function delete_transparent_bits(img, threshold)
 	end
 end
 
-function average_image_4x4(img, threshold)
-	for x = 0, img.width, 4 do
-		for y = 0, img.height, 4 do
-			average_4x4(img, threshold, x, y)
-		end
+function is_same_color(color1, color2)
+	if color1.r == color2.r and
+			color1.g == color2.g and
+			color1.b == color2.b and
+			color1.a == color2.a then
+		return true
+	else
+		return false
 	end
 end
 
+-- function add_color_to_list(mycolor, mylist)
+-- 	found_color = false
+
+-- 	for i, entry in ipairs(mylist) do
+-- 		if is_same_color(entry["color"], mycolor) then
+-- 			found_color = true
+-- 			entry["count"] = entry["count"] + 1
+-- 	end
+-- 	if found_color == false then
+-- 		mylist[0] = 0
+-- 	return mylist
+-- end
 
 threshold = 250
 
@@ -85,6 +108,7 @@ for i, cel in ipairs(app.activeSprite.cels) do
 	average_image_4x4(cel.image, threshold)
 	delete_transparent_bits(cel.image, threshold)
 end
+
 
 
 print("steps after running this script:")
